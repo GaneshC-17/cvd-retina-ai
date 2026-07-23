@@ -1,0 +1,76 @@
+# Python virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python caching & bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Node dependencies & frontend build
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+node_modules/
+dist/
+
+# SQLite databases (local application databases)
+backend/cvd_retina.db
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment variables & secrets
+backend/.env
+.env
+.env.local
+.env.*.local
+
+# User uploads & generated content (keep folder layout but ignore images/PDFs/CSV)
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/uploads/gradcam/*
+!backend/uploads/gradcam/.gitkeep
+backend/uploads/originals/*
+!backend/uploads/originals/.gitkeep
+backend/uploads/reports/*
+!backend/uploads/reports/.gitkeep
+
+# Large datasets (ignore all image/data files but keep folder hierarchy)
+dataset/raw/0_healthy/*
+!dataset/raw/0_healthy/.gitkeep
+dataset/raw/1_cvd_risk/*
+!dataset/raw/1_cvd_risk/.gitkeep
+
+dataset/processed/train/0_healthy/*
+!dataset/processed/train/0_healthy/.gitkeep
+dataset/processed/train/1_cvd_risk/*
+!dataset/processed/train/1_cvd_risk/.gitkeep
+
+dataset/processed/val/0_healthy/*
+!dataset/processed/val/0_healthy/.gitkeep
+dataset/processed/val/1_cvd_risk/*
+!dataset/processed/val/1_cvd_risk/.gitkeep
+
+dataset/processed/test/0_healthy/*
+!dataset/processed/test/0_healthy/.gitkeep
+dataset/processed/test/1_cvd_risk/*
+!dataset/processed/test/1_cvd_risk/.gitkeep
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS-specific files
+.DS_Store
+Thumbs.db
