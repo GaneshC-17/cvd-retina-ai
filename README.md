@@ -32,6 +32,15 @@ A production-quality academic demonstration project designed to predict cardiova
   - Full paginated table of scan history records with search functionality.
   - Admin view exposing global platform database metrics, registered user lists, prediction audit logs, and account/scan deletion controls.
 
+- **Clinical PDF Report Generation**:
+  - Automatically compiles patient demographics, ML prediction metrics, and risk assessment level.
+  - Features side-by-side visualization of the original retinal fundus image and the explainable AI **Grad-CAM heatmap** showing region-of-interest focus.
+  - Fully formatted, downloadable, and printable PDFs generated server-side using ReportLab.
+
+  <p align="center">
+    <img src="frontend/src/assets/report_preview.png" alt="Clinical PDF Report Preview" width="550"/>
+  </p>
+
 ---
 
 ## Tech Stack
@@ -55,6 +64,8 @@ cvd-retina-ai/
 │   ├── models.py             # Database tables (User, Prediction)
 │   ├── schemas.py            # Pydantic schemas with timezone-aware datetime serialization
 │   ├── predict.py            # TensorFlow inference engine using trained weights
+│   ├── explainability.py     # Grad-CAM heatmap visualization generator
+│   ├── report_generator.py   # PDF medical report generator (ReportLab integration)
 │   ├── create_admin.py       # Secure interactive CLI admin creation script
 │   ├── requirements.txt      # Python dependencies
 │   └── models/
@@ -81,28 +92,49 @@ cvd-retina-ai/
 - Python 3.12 or newer.
 - Node.js (v18+) & npm.
 
-### 2. Preprocess & Train the Model (Optional)
-*A pre-trained model is already saved in the repository at `backend/models/model.h5`. If you wish to retrain the model on the real dataset:*
-
+### 2. Set Up Virtual Environment & Dependencies
 1. Open your terminal in the root directory.
-2. Run the preprocessing script to download the Kaggle dataset, copy raw images to `dataset/raw`, and partition them:
+2. **Create and Activate Virtual Environment**:
+   Using `uv` (recommended):
+   ```bash
+   # Create virtual environment
+   uv venv
+
+   # Activate virtual environment:
+   # On Windows (PowerShell):
+   .venv\Scripts\activate
+   # On Windows (CMD):
+   .venv\Scripts\activate.bat
+   # On Unix/macOS:
+   source .venv/bin/activate
+   ```
+   *Alternatively, using standard python: `python -m venv .venv`*
+
+3. **Install Dependencies**:
+   Using `uv` (recommended, near-instant):
+   ```bash
+   uv pip install -r backend/requirements.txt
+   ```
+   *Alternatively, using standard pip: `pip install -r backend/requirements.txt`*
+
+### 3. Preprocess & Train the Model (Optional)
+*A pre-trained model is already saved in the repository at `backend/models/model.h5`. If you wish to retrain the model on the real dataset, ensure your virtual environment is activated and run:*
+
+1. Preprocess the dataset (download, partition, and resize to 224x224 RGB):
    ```bash
    python training/preprocess.py
    ```
-3. Run the training script to train and save the model weights:
+2. Train the model weights:
    ```bash
    python training/train.py
    ```
    *(Training uses Early Stopping; the best model weights will automatically be saved to `backend/models/model.h5`).*
 
-### 3. Run the FastAPI Backend
-1. Navigate to the backend folder:
+### 4. Run the FastAPI Backend
+1. Ensure your virtual environment is activated.
+2. Navigate to the backend folder:
    ```bash
    cd backend
-   ```
-2. Install Python dependencies:
-   ```bash
-   pip install -r requirements.txt
    ```
 3. Configure environment variables:
    Copy the example environment template file and customize it:
@@ -116,7 +148,7 @@ cvd-retina-ai/
    ```
    *(The API will be available at `http://127.0.0.1:8000`).*
 
-### 4. Create an Admin User (Optional CLI)
+### 5. Create an Admin User (Optional CLI)
 To create an administrator account directly via CLI (rather than web signup):
 1. Navigate to the backend folder and run:
    ```bash
@@ -124,7 +156,7 @@ To create an administrator account directly via CLI (rather than web signup):
    ```
 2. Enter the Full Name, Email, and Password when prompted.
 
-### 5. Run the React Frontend
+### 6. Run the React Frontend
 1. Open a new terminal and navigate to the frontend folder:
    ```bash
    cd frontend
